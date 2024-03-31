@@ -231,7 +231,7 @@ impl Game {
     fn spawn_enemies(&mut self) {
         let open_spaces = self.level.get_open_spaces();
         let mut rng = rand::thread_rng();
-        let enemy_count = rng.gen_range(12..=17);
+        let enemy_count = rng.gen_range(1..=2);
 
         for _ in 0..enemy_count {
             if let Some(&position) = open_spaces.choose(&mut rng) {
@@ -346,10 +346,32 @@ impl Game {
 
             self.frame_counter += 1;
             for enemy in &mut self.enemies {
+
+                // make enemy point towards player
+                let difference_in_x = self.player.pos.x - enemy.pos.x;
+                let difference_in_y = self.player.pos.y - enemy.pos.y;
+
+                // turn towards player, x direction
+                if difference_in_x > 0 {
+                    enemy.dir.x = 1;
+                } else if difference_in_x < 0 {
+                    enemy.dir.x = -1;
+                } else {
+                    enemy.dir.x = 0;
+                }
+                // turn towards player, y direction
+                if difference_in_y > 0 {
+                    enemy.dir.y = 1;
+                } else if difference_in_y < 0 {
+                    enemy.dir.y = -1;
+                } else {
+                    enemy.dir.y = 0;
+                }
+
                 let new_x = (enemy.pos.x as f32 + enemy.dir.x as f32 * enemy_speed * enemy_dt)
-                    .round() as i32;
+                     .round() as i32;
                 let new_y = (enemy.pos.y as f32 + enemy.dir.y as f32 * enemy_speed * enemy_dt)
-                    .round() as i32;
+                     .round() as i32;
 
                 if new_x >= 0
                     && new_x < self.level.grid_width() as i32
