@@ -329,7 +329,7 @@ impl Game {
 
     fn simulate(&mut self, input: &Input, dt: f32) {
         if self.is_player_alive {
-            let speed = 10.0;
+            let speed = 18.0;
 
             let dx = input.key_axis(Key::ArrowLeft, Key::ArrowRight);
             let dy = input.key_axis(Key::ArrowUp, Key::ArrowDown);
