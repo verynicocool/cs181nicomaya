@@ -230,6 +230,16 @@ impl Game {
 
     fn spawn_enemies(&mut self) {
         let open_spaces = self.level.get_open_spaces();
+        // remove spaces that are too close to the player
+        let open_spaces = open_spaces
+            .iter()
+            .filter(|&pos| {
+                let dx = (self.player.pos.x - pos.0 as i32).abs();
+                let dy = (self.player.pos.y - pos.1 as i32).abs();
+                dx > 15 || dy > 15
+            })
+            .copied()
+            .collect::<Vec<_>>();
         let mut rng = rand::thread_rng();
         let enemy_count = rng.gen_range(1..=2);
 
@@ -341,8 +351,8 @@ impl Game {
                 }
             }
 
-            let enemy_dt: f32 = 1.0 / 17.0;
-            let enemy_speed = 17.0;
+            let enemy_dt: f32 = 1.0 / 2.0;
+            let enemy_speed = 2.0;
 
             self.frame_counter += 1;
             for enemy in &mut self.enemies {
