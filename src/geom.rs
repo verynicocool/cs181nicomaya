@@ -1,7 +1,7 @@
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Debug)]
 pub struct Vec2 {
-    pub x: i32,
-    pub y: i32,
+    pub x: f32,
+    pub y: f32,
 }
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub struct Rect {
