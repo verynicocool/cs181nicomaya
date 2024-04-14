@@ -51,6 +51,7 @@ impl<T> Grid<T> {
     }
     pub fn xy_to_index(&self, x: usize, y: usize) -> Option<usize> {
         if self.contains(x, y) {
+            //todo!("Try implementing xy_to_index based on index_to_coord!")
             Some(y * self.width + x)
         } else {
             None
@@ -67,6 +68,8 @@ impl<T> Grid<T> {
         }
     }
     pub fn contains(&self, x: usize, y: usize) -> bool {
+        // Don't just use self.get(x,y).is_some()!  It uses contains to avoid invalid coordinates.
+        //todo!("Implement a function to test if x,y is in bounds")
         x < self.width && y < self.height
     }
     // This will return an iterator so we don't commit to a particular
@@ -102,25 +105,29 @@ impl<T> Grid<T> {
                 .and_then(|(x, y)| if x < w && y < h { Some((x, y)) } else { None })
         })
     }
-    pub fn neighbors_8(&self, x: usize, y: usize) -> impl Iterator<Item = Coord> + '_ {
-        let mut neighbors = Vec::new();
-        for offset_x in -1..=1 {
-            for offset_y in -1..=1 {
-                if offset_x == 0 && offset_y == 0 {
-                    continue;
-                }
-                let neighbor_x = x as isize + offset_x;
-                let neighbor_y = y as isize + offset_y;
-                if neighbor_x >= 0
-                    && neighbor_x < self.width as isize
-                    && neighbor_y >= 0
-                    && neighbor_y < self.height as isize
-                {
-                    neighbors.push((neighbor_x as usize, neighbor_y as usize));
-                }
-            }
-        }
-        neighbors.into_iter()
+    pub fn neighbors_8(&self, x: usize, y: usize) -> impl Iterator<Item = Coord> {
+        //todo!("following the example above, what are the eight neighbors of this tile?")
+        let left = x.checked_sub(1);
+        let right = x.checked_add(1);
+        let above = y.checked_sub(1);
+        let below = y.checked_add(1);
+        let w = self.width;
+        let h = self.height;
+        [
+            (left, Some(y)),
+            (left, above),
+            (Some(x), above),
+            (right, above),
+            (right, Some(y)),
+            (left, below),
+            (Some(x), below),
+            (right, below),
+        ]
+        .into_iter()
+        .filter_map(move |(x, y)| {
+            x.zip(y)
+                .and_then(|(x, y)| if x < w && y < h { Some((x, y)) } else { None })
+        })
     }
 }
 

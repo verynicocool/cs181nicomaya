@@ -1,0 +1,1167 @@
+{
+  "frames": {
+    "Tiny Adventure Pack/Character/Char_one/Attack/Char_atk_down": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 138,
+        "h": 23
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 138,
+        "h": 23
+      },
+      "sourceSize": {
+        "w": 138,
+        "h": 23
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_one/Attack/Char_atk_left": {
+      "frame": {
+        "x": 1201,
+        "y": 0,
+        "w": 92,
+        "h": 21
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 0,
+        "w": 92,
+        "h": 21
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 21
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_one/Attack/Char_atk_right": {
+      "frame": {
+        "x": 1106,
+        "y": 16,
+        "w": 92,
+        "h": 21
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 92,
+        "h": 21
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 21
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_one/Attack/Char_atk_up": {
+      "frame": {
+        "x": 278,
+        "y": 0,
+        "w": 128,
+        "h": 18
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 9,
+        "y": 0,
+        "w": 128,
+        "h": 18
+      },
+      "sourceSize": {
+        "w": 138,
+        "h": 18
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_one/Char_4_sides": {
+      "frame": {
+        "x": 464,
+        "y": 19,
+        "w": 60,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 0,
+        "w": 60,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_one/Idle/Char_idle_down": {
+      "frame": {
+        "x": 536,
+        "y": 0,
+        "w": 94,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 0,
+        "w": 94,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_one/Idle/Char_idle_left": {
+      "frame": {
+        "x": 629,
+        "y": 17,
+        "w": 90,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 0,
+        "w": 90,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_one/Idle/Char_idle_right": {
+      "frame": {
+        "x": 720,
+        "y": 17,
+        "w": 90,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 0,
+        "w": 90,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_one/Idle/Char_idle_up": {
+      "frame": {
+        "x": 631,
+        "y": 0,
+        "w": 94,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 0,
+        "w": 94,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_one/Walk/Char_walk_down": {
+      "frame": {
+        "x": 371,
+        "y": 22,
+        "w": 92,
+        "h": 17
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 0,
+        "w": 92,
+        "h": 17
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_one/Walk/Char_walk_left": {
+      "frame": {
+        "x": 186,
+        "y": 24,
+        "w": 91,
+        "h": 17
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 0,
+        "w": 91,
+        "h": 17
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_one/Walk/Char_walk_right": {
+      "frame": {
+        "x": 186,
+        "y": 42,
+        "w": 91,
+        "h": 17
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 0,
+        "w": 91,
+        "h": 17
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_one/Walk/Char_walk_up": {
+      "frame": {
+        "x": 371,
+        "y": 43,
+        "w": 92,
+        "h": 17
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 0,
+        "w": 92,
+        "h": 17
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_two/Attack/Char2_atk_up": {
+      "frame": {
+        "x": 407,
+        "y": 0,
+        "w": 128,
+        "h": 18
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 9,
+        "y": 0,
+        "w": 128,
+        "h": 18
+      },
+      "sourceSize": {
+        "w": 138,
+        "h": 18
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_two/Attack/Char2_two_attack_down": {
+      "frame": {
+        "x": 139,
+        "y": 0,
+        "w": 138,
+        "h": 23
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 138,
+        "h": 23
+      },
+      "sourceSize": {
+        "w": 138,
+        "h": 23
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_two/Attack/Char2_two_attack_left": {
+      "frame": {
+        "x": 536,
+        "y": 17,
+        "w": 92,
+        "h": 21
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 0,
+        "w": 92,
+        "h": 21
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 21
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_two/Attack/Char2_two_attack_right": {
+      "frame": {
+        "x": 278,
+        "y": 22,
+        "w": 92,
+        "h": 21
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 0,
+        "w": 92,
+        "h": 21
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 21
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_two/Char2_4sides": {
+      "frame": {
+        "x": 464,
+        "y": 39,
+        "w": 60,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 0,
+        "w": 60,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_two/Idle/Char2_idle_down": {
+      "frame": {
+        "x": 726,
+        "y": 0,
+        "w": 94,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 0,
+        "w": 94,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_two/Idle/Char2_idle_left": {
+      "frame": {
+        "x": 811,
+        "y": 17,
+        "w": 90,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 0,
+        "w": 90,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_two/Idle/Char2_idle_right": {
+      "frame": {
+        "x": 902,
+        "y": 17,
+        "w": 90,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 0,
+        "w": 90,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_two/Idle/Char2_idle_up": {
+      "frame": {
+        "x": 821,
+        "y": 0,
+        "w": 94,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 0,
+        "w": 94,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_two/Walk/Char2_walk_down": {
+      "frame": {
+        "x": 0,
+        "y": 24,
+        "w": 92,
+        "h": 17
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 0,
+        "w": 92,
+        "h": 17
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_two/Walk/Char2_walk_left": {
+      "frame": {
+        "x": 278,
+        "y": 44,
+        "w": 91,
+        "h": 17
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 0,
+        "w": 91,
+        "h": 17
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_two/Walk/Char2_walk_right": {
+      "frame": {
+        "x": 0,
+        "y": 60,
+        "w": 91,
+        "h": 17
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 0,
+        "w": 91,
+        "h": 17
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Character/Char_two/Walk/Char2_walk_up": {
+      "frame": {
+        "x": 93,
+        "y": 24,
+        "w": 92,
+        "h": 17
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 0,
+        "w": 92,
+        "h": 17
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Other/Blue_orb": {
+      "frame": {
+        "x": 525,
+        "y": 19,
+        "w": 7,
+        "h": 7
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "sourceSize": {
+        "w": 7,
+        "h": 7
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Other/Coin": {
+      "frame": {
+        "x": 525,
+        "y": 51,
+        "w": 5,
+        "h": 5
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 5,
+        "h": 5
+      },
+      "sourceSize": {
+        "w": 5,
+        "h": 5
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Other/Green_orb": {
+      "frame": {
+        "x": 525,
+        "y": 27,
+        "w": 7,
+        "h": 7
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "sourceSize": {
+        "w": 7,
+        "h": 7
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Other/Heart": {
+      "frame": {
+        "x": 525,
+        "y": 35,
+        "w": 7,
+        "h": 7
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "sourceSize": {
+        "w": 7,
+        "h": 7
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Other/Misc/Bush": {
+      "frame": {
+        "x": 435,
+        "y": 61,
+        "w": 15,
+        "h": 13
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 15,
+        "h": 13
+      },
+      "sourceSize": {
+        "w": 15,
+        "h": 13
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+    "Tiny Adventure Pack/Other/Misc/Chest": {
+      "frame": {
+        "x": 1106,
+        "y": 0,
+        "w": 94,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 1,
+        "w": 94,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Other/Misc/Grass": {
+      "frame": {
+        "x": 594,
+        "y": 39,
+        "w": 16,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Other/Misc/Rock": {
+      "frame": {
+        "x": 419,
+        "y": 61,
+        "w": 15,
+        "h": 15
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 15,
+        "h": 15
+      },
+      "sourceSize": {
+        "w": 15,
+        "h": 15
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Other/Misc/Sign": {
+      "frame": {
+        "x": 611,
+        "y": 39,
+        "w": 16,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Other/Misc/Tree/Tree": {
+      "frame": {
+        "x": 464,
+        "y": 56,
+        "w": 48,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 54
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Other/Misc/Tree/Tree_top": {
+      "frame": {
+        "x": 370,
+        "y": 61,
+        "w": 48,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 46
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Other/Misc/Tree/Tree_trunk": {
+      "frame": {
+        "x": 1084,
+        "y": 17,
+        "w": 18,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 18,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 18,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Other/Red_orb": {
+      "frame": {
+        "x": 525,
+        "y": 43,
+        "w": 7,
+        "h": 7
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "sourceSize": {
+        "w": 7,
+        "h": 7
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Skeleton/Idle/Skel_idle_down": {
+      "frame": {
+        "x": 916,
+        "y": 0,
+        "w": 94,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 0,
+        "w": 94,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Skeleton/Idle/Skel_idle_left": {
+      "frame": {
+        "x": 993,
+        "y": 17,
+        "w": 90,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 0,
+        "w": 90,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Skeleton/Idle/Skel_idle_right": {
+      "frame": {
+        "x": 629,
+        "y": 34,
+        "w": 90,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 0,
+        "w": 90,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Skeleton/Idle/Skel_idle_up": {
+      "frame": {
+        "x": 1011,
+        "y": 0,
+        "w": 94,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 0,
+        "w": 94,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Skeleton/Skel_4Sides": {
+      "frame": {
+        "x": 533,
+        "y": 39,
+        "w": 60,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 0,
+        "w": 60,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 16
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Skeleton/Walk/Skel_walk_down": {
+      "frame": {
+        "x": 0,
+        "y": 42,
+        "w": 92,
+        "h": 17
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 0,
+        "w": 92,
+        "h": 17
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Skeleton/Walk/Skel_walk_left": {
+      "frame": {
+        "x": 92,
+        "y": 60,
+        "w": 91,
+        "h": 17
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 0,
+        "w": 91,
+        "h": 17
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Skeleton/Walk/Skel_walk_right": {
+      "frame": {
+        "x": 184,
+        "y": 60,
+        "w": 91,
+        "h": 17
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 0,
+        "w": 91,
+        "h": 17
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Tiny Adventure Pack/Skeleton/Walk/Skel_walk_up": {
+      "frame": {
+        "x": 93,
+        "y": 42,
+        "w": 92,
+        "h": 17
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 0,
+        "w": 92,
+        "h": 17
+      },
+      "sourceSize": {
+        "w": 96,
+        "h": 17
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+  },
+  "meta": {
+    "app": "https://neeeoo.github.io/funkin-packer/",
+    "version": "0.1.3",
+    "image": "texture.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2048,
+      "h": 2048
+    },
+    "scale": 1
+  }
+}

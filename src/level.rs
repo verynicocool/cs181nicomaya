@@ -1,6 +1,5 @@
 use crate::geom::*;
-use crate::grid::Coord;
-use crate::grid::Grid;
+use crate::grid::{self, Grid};
 use crate::EntityType;
 use crate::TileData;
 use crate::TILE_SZ;
@@ -11,26 +10,14 @@ use frenderer::{
 use std::collections::HashMap;
 use std::str::FromStr;
 
-#[derive(Debug)]
-struct Tileset {
-    tiles: Vec<TileData>,
-}
-impl std::ops::Index<usize> for Tileset {
-    type Output = TileData;
-    fn index(&self, index: usize) -> &Self::Output {
-        &self.tiles[index]
-    }
-}
-
 #[allow(dead_code)]
 pub struct Level {
     name: String,
+    bg: SheetRegion,
     grid: Grid<u8>,
     tileset: Tileset,
     starts: Vec<(EntityType, Vec2)>,
 }
-
-const WALL: SheetRegion = SheetRegion::new(0, 186, 186, 0, 18, 18);
 
 impl Level {
     /*
@@ -80,6 +67,7 @@ impl Level {
         let mut legend: HashMap<String, (u8, TileData)> = std::collections::HashMap::new();
         let mut grid = vec![];
         let mut starts = vec![];
+        let mut bg = SheetRegion::ZERO;
         for line in s.lines() {
             if line.is_empty() {
                 continue;
@@ -88,22 +76,45 @@ impl Level {
             } else {
                 match state {
                     State::Metadata => {
-                        assert_eq!(name, None, "Two metadata lines! in {line}");
                         let mut chunks = line.split_whitespace();
-                        name = Some(
-                            chunks
-                                .next()
-                                .expect("No name in metadata line {line}")
-                                .to_string(),
-                        );
-                        dims = Some((
-                            u16::from_str(chunks.next().expect("No width in metadata line {line}"))
-                                .expect("Couldn't parse width as u16 in {line}"),
-                            u16::from_str(
-                                chunks.next().expect("No height in metadata line {line}"),
+                        let md = chunks
+                            .next()
+                            .expect("No metadata decl string in metadata line {line}");
+                        if md == "bg" {
+                            if bg.w != 0 {
+                                panic!("Two bg entries in metadata");
+                            }
+                            bg = SheetRegion::rect(
+                                u16::from_str(chunks.next().expect("No x in metadata line {line}"))
+                                    .expect("Couldn't parse x as u16 in {line}"),
+                                u16::from_str(chunks.next().expect("No y in metadata line {line}"))
+                                    .expect("Couldn't parse y as u16 in {line}"),
+                                i16::from_str(
+                                    chunks.next().expect("No width in metadata line {line}"),
+                                )
+                                .expect("Couldn't parse width as i16 in {line}"),
+                                i16::from_str(
+                                    chunks.next().expect("No height in metadata line {line}"),
+                                )
+                                .expect("Couldn't parse height as i16 in {line}"),
                             )
-                            .expect("Couldn't parse height as u16 in {line}"),
-                        ));
+                            .with_depth(17);
+                        } else {
+                            if name.is_some() {
+                                panic!("Two name entries in metadata");
+                            }
+                            name = Some(md.to_string());
+                            dims = Some((
+                                u16::from_str(
+                                    chunks.next().expect("No width in metadata line {line}"),
+                                )
+                                .expect("Couldn't parse width as u16 in {line}"),
+                                u16::from_str(
+                                    chunks.next().expect("No height in metadata line {line}"),
+                                )
+                                .expect("Couldn't parse height as u16 in {line}"),
+                            ));
+                        }
                     }
                     State::Legend => {
                         let mut chunks = line.split_whitespace();
@@ -172,8 +183,9 @@ impl Level {
                         starts.push((
                             etype,
                             Vec2 {
-                                x: x.into(),
-                                y: y.into(),
+                                x: (x as usize * TILE_SZ) as f32 + TILE_SZ as f32 / 2.0,
+                                y: ((dims.unwrap().1 - y) as usize * TILE_SZ) as f32
+                                    - TILE_SZ as f32 / 2.0,
                             },
                         ));
                     }
@@ -192,6 +204,7 @@ impl Level {
         let mut tiles: Vec<(u8, TileData)> = legend.into_values().collect();
         tiles.sort_by_key(|(num, _)| *num);
         Self {
+            bg,
             name: name.to_string(),
             grid: Grid::new(w as usize, h as usize, grid),
             tileset: Tileset {
@@ -200,53 +213,42 @@ impl Level {
             starts,
         }
     }
-    pub fn grid_height(&self) -> usize {
-        self.grid.height()
-    }
-    pub fn grid_width(&self) -> usize {
-        self.grid.width()
-    }
     pub fn sprite_count(&self) -> usize {
-        self.grid.width() * self.grid.height()
-    }
-    pub fn get_open_spaces(&self) -> Vec<Coord> {
-        let mut open_spaces = Vec::new();
-        for y in 0..self.grid_height() {
-            for x in 0..self.grid_width() {
-                if let Some(tile) = self.get_tile(Vec2 {
-                    x: x as f32,
-                    y: y as f32,
-                }) {
-                    if !tile.solid {
-                        open_spaces.push((x, y));
-                    }
-                }
-            }
-        }
-        open_spaces
+        self.grid.width() * self.grid.height() + 1
     }
     pub fn render_into(&self, frend: &mut Renderer, offset: usize) -> usize {
-        let (trfs, uvs) = frend.sprites_mut(0, offset..offset + self.sprite_count());
+        let len = self.sprite_count();
+        let h = self.grid.height();
+        let (trfs, uvs) = frend.sprites_mut(0, offset..len);
+        let mut trfs = trfs.iter_mut();
+        let mut uvs = uvs.iter_mut();
         for (y, row) in self.grid.row_iter().enumerate() {
-            for (x, &tile_index) in row.iter().enumerate() {
-                let tile_data = &self.tileset[tile_index as usize];
-                trfs[offset + x + y * self.grid.width()] = Transform {
-                    x: (x as f32 * TILE_SZ as f32) + TILE_SZ as f32 / 2.0,
-                    y: (y as f32 * TILE_SZ as f32) + TILE_SZ as f32 / 2.0,
+            for (x, tile) in row.iter().enumerate() {
+                let trf = trfs.next().unwrap();
+                let uv = uvs.next().unwrap();
+                // NOTE: we're converting from grid coordinates to "sprite center coordinates", so we have to flip y...
+                let y = h - y - 1;
+                *trf = Transform {
+                    // and multiply by tile sz
+                    x: (x * TILE_SZ + TILE_SZ / 2) as f32,
+                    y: (y * TILE_SZ + TILE_SZ / 2) as f32,
                     w: TILE_SZ as u16,
                     h: TILE_SZ as u16,
                     rot: 0.0,
                 };
-                uvs[offset + x + y * self.grid.width()] = if tile_data.solid {
-                    WALL
-                } else {
-                    tile_data.sheet_region
-                };
+                *uv = self.tileset[*tile as usize].sheet_region;
             }
         }
-        self.sprite_count()
+        *trfs.next().unwrap() = Transform {
+            x: (self.grid.width() * TILE_SZ) as f32 / 2.0,
+            y: (self.grid.height() * TILE_SZ) as f32 / 2.0,
+            w: (self.grid.width() as u16 * TILE_SZ as u16),
+            h: (self.grid.height() as u16 * TILE_SZ as u16),
+            rot: 0.0,
+        };
+        *uvs.next().unwrap() = self.bg;
+        len
     }
-
     #[allow(dead_code)]
     pub fn name(&self) -> &str {
         &self.name
@@ -254,9 +256,68 @@ impl Level {
     pub fn starts(&self) -> &[(EntityType, Vec2)] {
         &self.starts
     }
-    pub fn get_tile(&self, pos: Vec2) -> Option<&TileData> {
-        self.grid
-            .get(pos.x as usize, pos.y as usize)
-            .map(|t| &self.tileset[*t as usize])
+    // pub fn get_tile_at(&self, pos: Vec2) -> Option<&TileData> {
+    //     let (gx, gy) = self.world_to_grid(pos);
+    //     self.grid.get(gx, gy).map(|t| &self.tileset[*t as usize])
+    // }
+    // pub fn tile_index_at(&self, pos: Vec2) -> Option<usize> {
+    //     let (gx, gy) = self.world_to_grid(pos);
+    //     self.grid.xy_to_index(gx, gy)
+    // }
+    pub fn grid_to_world(&self, pos: grid::Coord) -> Vec2 {
+        Vec2 {
+            x: pos.0 as f32 * TILE_SZ as f32,
+            y: (self.grid.height() - pos.1 - 1) as f32 * TILE_SZ as f32,
+        }
+    }
+    pub fn world_to_grid(&self, pos: Vec2) -> grid::Coord {
+        (
+            (pos.x / TILE_SZ as f32) as usize,
+            (((self.grid.height() as f32 * TILE_SZ as f32) - pos.y - 1.0) / TILE_SZ as f32)
+                as usize,
+        )
+    }
+    pub fn tiles_within(&self, rect: Rect) -> impl Iterator<Item = (Rect, &TileData)> {
+        let (l, t) = self.world_to_grid(Vec2 {
+            x: rect.x,
+            y: rect.y,
+        });
+        let (r, b) = self.world_to_grid(Vec2 {
+            x: rect.x + rect.w as f32,
+            y: rect.y + rect.h as f32,
+        });
+        (b..(t + 1)).flat_map(move |row| {
+            (l..(r + 1)).filter_map(move |col| {
+                self.grid.get(col, row).map(|tile_dat| {
+                    let world = self.grid_to_world((col, row));
+                    (
+                        Rect {
+                            x: world.x,
+                            y: world.y,
+                            w: TILE_SZ as u16,
+                            h: TILE_SZ as u16,
+                        },
+                        &self.tileset[*tile_dat as usize],
+                    )
+                })
+            })
+        })
+    }
+    // pub fn width(&self) -> usize {
+    //     self.grid.width()
+    // }
+    // pub fn height(&self) -> usize {
+    //     self.grid.height()
+    // }
+}
+
+#[derive(Debug)]
+struct Tileset {
+    tiles: Vec<TileData>,
+}
+impl std::ops::Index<usize> for Tileset {
+    type Output = TileData;
+    fn index(&self, index: usize) -> &Self::Output {
+        &self.tiles[index]
     }
 }
