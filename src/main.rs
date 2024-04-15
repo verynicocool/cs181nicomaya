@@ -332,8 +332,18 @@ impl Game {
 
     fn spawn_enemies(&mut self) {
         let open_spaces = self.level.get_open_spaces();
+        // remove spaces that are too close to the player
+        let open_spaces = open_spaces
+            .iter()
+            .filter(|&pos| {
+                let dx = (self.player.pos.x - pos.0 as f32).abs();
+                let dy = (self.player.pos.y - pos.1 as f32).abs();
+                dx > 15.0 || dy > 15.0
+            })
+            .copied()
+            .collect::<Vec<_>>();
         let mut rng = rand::thread_rng();
-        let enemy_count = rng.gen_range(12..=17);
+        let enemy_count = rng.gen_range(1..=2);
 
         for _ in 0..enemy_count {
             if let Some(&position) = open_spaces.choose(&mut rng) {
@@ -473,6 +483,7 @@ impl Game {
 
     fn simulate(&mut self, input: &Input, dt: f32) {
         if self.is_player_alive {
+
             let speed = 5.0;
 
             let dx = input.key_axis(Key::ArrowLeft, Key::ArrowRight);
@@ -481,16 +492,38 @@ impl Game {
             self.player.pos.x += dx as f32 * speed * dt;
             self.player.pos.y += dy as f32 * speed * dt;
 
-            let enemy_dt: f32 = 1.0 / 17.0;
-            let enemy_speed = 17.0;
+            let enemy_dt: f32 = 1.0 / 2.0;
+            let enemy_speed = 2.0;
 
             self.frame_counter += 1;
             for enemy in &mut self.enemies {
+
+                // make enemy point towards player
+                let difference_in_x = self.player.pos.x - enemy.pos.x;
+                let difference_in_y = self.player.pos.y - enemy.pos.y;
+
+                // turn towards player, x direction
+                if difference_in_x > 0.0 {
+                    enemy.dir.x = 1.0;
+                } else if difference_in_x < 0.0 {
+                    enemy.dir.x = -1.0;
+                } else {
+                    enemy.dir.x = 0.0;
+                }
+                // turn towards player, y direction
+                if difference_in_y > 0.0 {
+                    enemy.dir.y = 1.0;
+                } else if difference_in_y < 0.0 {
+                    enemy.dir.y = -1.0;
+                } else {
+                    enemy.dir.y = 0.0;
+                }
+
                 let new_x = (enemy.pos.x as f32 + enemy.dir.x as f32 * enemy_speed * enemy_dt)
+
                     .round() as f32;
                 let new_y = (enemy.pos.y as f32 + enemy.dir.y as f32 * enemy_speed * enemy_dt)
                     .round() as f32;
-
                 if new_x >= 0.0
                     && new_x < self.level.grid_width() as f32
                     && new_y >= 0.0
