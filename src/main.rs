@@ -280,7 +280,7 @@ impl Game {
         }
         displacement
     }
-
+    // test
     fn render(&mut self, frend: &mut Renderer) {
         // make this exactly as big as we need
         frend.sprite_group_resize(0, self.sprite_count());
