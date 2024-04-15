@@ -214,8 +214,8 @@ impl Level {
         for y in 0..self.grid_height() {
             for x in 0..self.grid_width() {
                 if let Some(tile) = self.get_tile(Vec2 {
-                    x: x as i32,
-                    y: y as i32,
+                    x: x as f32,
+                    y: y as f32,
                 }) {
                     if !tile.solid {
                         open_spaces.push((x, y));
