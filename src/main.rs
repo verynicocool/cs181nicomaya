@@ -83,6 +83,7 @@ struct Game {
     attack_timer: f32,
     knockback_timer: f32,
     health: u8,
+    camera: Camera2D,
 }
 
 // Feel free to change this if you use a different tilesheet
@@ -199,8 +200,19 @@ impl Game {
             ),
         ];
         let current_level = 0;
+        let player_start = *levels[current_level]
+            .starts()
+            .iter()
+            .find(|(t, _)| *t == EntityType::Player)
+            .map(|(_, ploc)| ploc)
+            .expect("Start level doesn't put the player anywhere");
+
+        // Initialize the camera so it centers on the player
         let camera = Camera2D {
-            screen_pos: [0.0, 0.0],
+            screen_pos: [
+                player_start.x - W as f32 / 2.0,
+                player_start.y - H as f32 / 2.0,
+            ],
             screen_size: [W as f32, H as f32],
         };
         let sprite_estimate =
@@ -211,12 +223,7 @@ impl Game {
             vec![SheetRegion::ZERO; sprite_estimate],
             camera,
         );
-        let player_start = *levels[current_level]
-            .starts()
-            .iter()
-            .find(|(t, _)| *t == EntityType::Player)
-            .map(|(_, ploc)| ploc)
-            .expect("Start level doesn't put the player anywhere");
+
         let mut game = Game {
             current_level,
             attack_area: Rect {
@@ -235,6 +242,7 @@ impl Game {
                 dir: Dir::S,
                 alive: true,
             },
+            camera,
         };
         game.enter_level(player_start);
         game
@@ -280,10 +288,11 @@ impl Game {
         }
         displacement
     }
-    // test
+
     fn render(&mut self, frend: &mut Renderer) {
         // make this exactly as big as we need
         frend.sprite_group_resize(0, self.sprite_count());
+        frend.sprite_group_set_camera(0, self.camera);
 
         let sprites_used = self.level().render_into(frend, 0);
         let (sprite_posns, sprite_gfx) = frend.sprites_mut(0, sprites_used..);
@@ -419,8 +428,11 @@ impl Game {
                     w: 0,
                     h: 0,
                 };
-            }
+            }    
         }
+        // Update the camera to center on the player
+        self.camera.screen_pos[0] = self.player.pos.x - W as f32 / 2.0;
+        self.camera.screen_pos[1] = self.player.pos.y - H as f32 / 2.0;
 
         let dest = self.player.pos + Vec2 { x: dx, y: dy };
         self.player.pos = dest;
@@ -512,18 +524,5 @@ impl Game {
                 }
             }
         }
-
-        // ----
-        // TODO POINT: implement collision detection here. for collision with the tilemap, you can use Level::tiles_within to find the tiles touching a rectangle, and filter out the ones that are not solid.  Then you have rects you can test against your player/enemies.
-        // TODO POINT: damage and knock back the player (you can use knockback_timer & health fields of game; you want the player to be invulnerable temporarily after hitting an enemy, so just decreasing health on its own won't work!)
-        // TODO POINT: damage/destroy the enemy
-
-        // I suggest gathering player-tile collisions and enemy-tile collisions, then doing collision response on those sets of contacts (it's OK to use two sets of contacts).
-        // You could have helper functions like gather_contacts_tiles(&[rect], &Level, &mut Vec<Contact>) and gather_contacts(&[rect], &[rect], &mut Vec<Contact>) or do_collision_response(&[Contact], &mut [rect], &[rect]) or compute_displacement(rect, rect) -> Vec2.
-        // A Contact struct is not strictly necessary but it's a good idea (with fields like displacement, a_index, a_rect, b_index, and b_rect fields).
-        // Then, you can check for contacts between the player & their attack rectangle on one side, and the enemies on the other side (you can reuse gather_contacts for this).  These don't need to participate in collision response, but you can use them to determine whether the player or enemy should be damaged.
-
-        // For deleting enemies, it's best to add the enemy to a "to_remove" vec, and then remove those enemies after this loop is all done.
-        // Alternatively, you could "disable" an enemy by giving it an `alive` flag or similar and setting that to false, not drawing or updating dead enemies.
     }
 }
