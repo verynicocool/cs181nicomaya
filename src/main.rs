@@ -8,6 +8,10 @@ use rand::Rng;
 mod geom;
 mod grid;
 use geom::*;
+use std::fs::{self, OpenOptions};
+use std::io::{self, BufRead, BufReader, Write};
+use std::path::Path;
+use rand::seq::SliceRandom;
 
 #[derive(Debug, PartialEq, Eq)]
 enum EntityType {
@@ -16,6 +20,7 @@ enum EntityType {
     // which level, grid x in dest level, grid y in dest level
     #[allow(dead_code)]
     Door(String, u16, u16),
+    Souvenir,
 }
 
 #[derive(Clone, Copy, Debug)]
@@ -56,6 +61,8 @@ const ENEMY: [SheetRegion; 4] = [
 
 const HEART: SheetRegion = SheetRegion::rect(525, 35, 8, 8);
 
+const SOUVENIR: SheetRegion = SheetRegion::new(0, 699, 193, 0, 13, 11);
+
 impl Dir {
     fn to_vec2(self) -> Vec2 {
         match self {
@@ -83,6 +90,9 @@ struct Game {
     attack_timer: f32,
     knockback_timer: f32,
     health: u8,
+    camera: Camera2D,
+    souvenirs: Vec<Vec2>,
+    score: u32,
 }
 
 // Feel free to change this if you use a different tilesheet
@@ -199,8 +209,19 @@ impl Game {
             ),
         ];
         let current_level = 0;
+        let player_start = *levels[current_level]
+            .starts()
+            .iter()
+            .find(|(t, _)| *t == EntityType::Player)
+            .map(|(_, ploc)| ploc)
+            .expect("Start level doesn't put the player anywhere");
+
+        // Initialize the camera so it centers on the player
         let camera = Camera2D {
-            screen_pos: [0.0, 0.0],
+            screen_pos: [
+                player_start.x - W as f32 / 2.0,
+                player_start.y - H as f32 / 2.0,
+            ],
             screen_size: [W as f32, H as f32],
         };
         let sprite_estimate =
@@ -211,12 +232,7 @@ impl Game {
             vec![SheetRegion::ZERO; sprite_estimate],
             camera,
         );
-        let player_start = *levels[current_level]
-            .starts()
-            .iter()
-            .find(|(t, _)| *t == EntityType::Player)
-            .map(|(_, ploc)| ploc)
-            .expect("Start level doesn't put the player anywhere");
+
         let mut game = Game {
             current_level,
             attack_area: Rect {
@@ -235,8 +251,12 @@ impl Game {
                 dir: Dir::S,
                 alive: true,
             },
+            camera,
+            souvenirs: vec![],
+            score: 0,
         };
         game.enter_level(player_start);
+        game.spawn_gold(50);
         game
     }
     fn level(&self) -> &Level {
@@ -254,6 +274,31 @@ impl Game {
                     dir: Dir::S,
                     alive: true,
                 }),
+                _ => {
+                    // Ignore other types, such as Souvenirs, as they are handled separately or not applicable here.
+                }
+            }
+        }
+    }
+    fn spawn_gold(&mut self, mut gold_count: i32) {
+        let open_spaces = self.level().get_open_spaces();
+        // let open_spaces = self.level.get_open_spaces();
+        let mut rng = rand::thread_rng();
+
+        // Filter open spaces to exclude those occupied by enemies or the player
+        let available_spaces: Vec<_> = open_spaces
+            .into_iter()
+            .filter(|pos| {
+                self.player.pos != Vec2 { x: pos.0 as f32, y: pos.1 as f32 }
+            })
+            .collect();
+
+        gold_count = 50;
+        // Randomly choose locations from available spaces
+        for _ in 0..gold_count {
+            if let Some(&position) = available_spaces.choose(&mut rng) {
+                // Use `position` directly here
+                self.souvenirs.push(Vec2 { x: position.0 as f32, y: position.1 as f32 });
             }
         }
     }
@@ -280,10 +325,43 @@ impl Game {
         }
         displacement
     }
+    fn update_souvenirs(&mut self) {
+        let player_size = 0.25;
+        let gold_size = 0.25; // Adjust this as necessary
 
+        // Detect golds to remove
+        let to_remove: Vec<Vec2> = self.souvenirs.iter().filter_map(|gold_pos| {
+            if Self::check_collision(self.player.pos, player_size, *gold_pos, gold_size) {
+                Some(*gold_pos)
+            } else {
+                None
+            }
+        }).collect();
+
+        // Remove golds that collided
+        self.souvenirs.retain(|gold_pos| !to_remove.contains(gold_pos));
+
+        // Spawn a new gold if needed
+        if self.souvenirs.len() < 50 {
+            self.spawn_gold(1);
+            self.score += 1;
+        }
+    }
+    fn check_collision(a_pos: Vec2, a_size: f32, b_pos: Vec2, b_size: f32) -> bool {
+        let a_half_size = a_size / 2.0;
+        let b_half_size = b_size / 2.0;
+    
+        // Check for overlap in the x-axis
+        let x_overlap = (a_pos.x - b_pos.x).abs() < (a_half_size + b_half_size);
+        // Check for overlap in the y-axis
+        let y_overlap = (a_pos.y - b_pos.y).abs() < (a_half_size + b_half_size);
+    
+        x_overlap && y_overlap
+    }
     fn render(&mut self, frend: &mut Renderer) {
         // make this exactly as big as we need
         frend.sprite_group_resize(0, self.sprite_count());
+        frend.sprite_group_set_camera(0, self.camera);
 
         let sprites_used = self.level().render_into(frend, 0);
         let (sprite_posns, sprite_gfx) = frend.sprites_mut(0, sprites_used..);
@@ -349,6 +427,31 @@ impl Game {
             };
             sprite_gfx[start_index_for_hearts + i as usize] = HEART;
         }
+        for (index, souv_pos) in self.souvenirs.iter().enumerate() {
+            let sprite_index = self.level().sprite_count() + index + 1;
+            // let sprite_index = self.level.sprite_count() + index + 1; // Adjust index based on total_sprites_needed calculation
+            if let Some(souv_sprite) = sprite_posns.get_mut(sprite_index) {
+                souv_sprite.x = (souv_pos.x as f32) * TILE_SZ as f32 + TILE_SZ as f32 / 2.0;
+                souv_sprite.y = ((H as f32) - souv_pos.y as f32) * TILE_SZ as f32 - TILE_SZ as f32 / 2.0;
+                souv_sprite.w = TILE_SZ as u16 / 3;
+                souv_sprite.h = TILE_SZ as u16 / 3;
+                souv_sprite.rot = 0.0;
+            }
+            if let Some(souv_sprite_gfx) = sprite_gfx.get_mut(sprite_index) {
+                *souv_sprite_gfx = SOUVENIR;
+            }
+        }
+
+        // for (i, souvenir) in self.souvenirs.iter().enumerate() {
+        //     sprite_posns[start_index_for_hearts + self.health as usize + i] = Transform {
+        //         x: souvenir.x,
+        //         y: souvenir.y,
+        //         w: 13,
+        //         h: 11,
+        //         rot: 0.0,
+        //     };
+        //     sprite_gfx[start_index_for_hearts + self.health as usize + i] = SOUVENIR;
+        // }
     }
     fn simulate(&mut self, input: &Input, dt: f32) {
         let mut dx = 0.0;
@@ -392,6 +495,7 @@ impl Game {
             }
         }
         if self.health > 0 {
+            // println!("You collected {} souvenirs", self.score);
             if self.attack_timer <= 0.0 && input.is_key_pressed(Key::Space) {
                 // TODO POINT: compute the attack area's center based on the player's position and facing and some offset
                 // For the spritesheet provided, the attack is placed 8px "forwards" from the player.
@@ -419,8 +523,11 @@ impl Game {
                     w: 0,
                     h: 0,
                 };
-            }
+            }    
         }
+        // Update the camera to center on the player
+        self.camera.screen_pos[0] = self.player.pos.x - W as f32 / 2.0;
+        self.camera.screen_pos[1] = self.player.pos.y - H as f32 / 2.0;
 
         let dest = self.player.pos + Vec2 { x: dx, y: dy };
         self.player.pos = dest;
@@ -512,18 +619,6 @@ impl Game {
                 }
             }
         }
-
-        // ----
-        // TODO POINT: implement collision detection here. for collision with the tilemap, you can use Level::tiles_within to find the tiles touching a rectangle, and filter out the ones that are not solid.  Then you have rects you can test against your player/enemies.
-        // TODO POINT: damage and knock back the player (you can use knockback_timer & health fields of game; you want the player to be invulnerable temporarily after hitting an enemy, so just decreasing health on its own won't work!)
-        // TODO POINT: damage/destroy the enemy
-
-        // I suggest gathering player-tile collisions and enemy-tile collisions, then doing collision response on those sets of contacts (it's OK to use two sets of contacts).
-        // You could have helper functions like gather_contacts_tiles(&[rect], &Level, &mut Vec<Contact>) and gather_contacts(&[rect], &[rect], &mut Vec<Contact>) or do_collision_response(&[Contact], &mut [rect], &[rect]) or compute_displacement(rect, rect) -> Vec2.
-        // A Contact struct is not strictly necessary but it's a good idea (with fields like displacement, a_index, a_rect, b_index, and b_rect fields).
-        // Then, you can check for contacts between the player & their attack rectangle on one side, and the enemies on the other side (you can reuse gather_contacts for this).  These don't need to participate in collision response, but you can use them to determine whether the player or enemy should be damaged.
-
-        // For deleting enemies, it's best to add the enemy to a "to_remove" vec, and then remove those enemies after this loop is all done.
-        // Alternatively, you could "disable" an enemy by giving it an `alive` flag or similar and setting that to false, not drawing or updating dead enemies.
+        self.update_souvenirs();
     }
 }
